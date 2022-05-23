@@ -17,6 +17,10 @@ const RnYandexnaviSignature = NativeModules.RnYandexnaviSignature
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return RnYandexnaviSignature.multiply(a, b);
+export function sign(
+  url: string,
+  client: string,
+  key: string
+): Promise<string> {
+  return RnYandexnaviSignature.sign(url, client, key);
 }

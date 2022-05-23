@@ -1,18 +1,34 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'rn-yandexnavi-signature';
+import { StyleSheet, View, Button, Linking } from 'react-native';
+import { sign } from 'rn-yandexnavi-signature';
+
+const client = '000';
+const androidKey = `-----BEGIN PRIVATE KEY-----
+KEY HERE
+-----END PRIVATE KEY-----`;
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const openUrl = async () => {
+    const url =
+      'yandexnavi://build_route_on_map?lat_to=55.680559&lon_to=37.549246';
+    const canOpen = await Linking.canOpenURL(url);
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+    if (canOpen) {
+      sign(url, client, androidKey)
+        .then((signedUrl) => {
+          Linking.openURL(signedUrl);
+        })
+        .catch((error) => {
+          console.warn(error);
+          Linking.openURL(url);
+        });
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button title="Open URL" onPress={openUrl} />
     </View>
   );
 }
@@ -22,10 +38,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
   },
 });

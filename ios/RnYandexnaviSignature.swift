@@ -1,8 +1,8 @@
 @objc(RnYandexnaviSignature)
 class RnYandexnaviSignature: NSObject {
 
-    @objc(multiply:withB:withResolver:withRejecter:)
-    func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        resolve(a*b)
+    @objc(sign:withClient:withKey:withResolver:withRejecter:)
+    func sign(url: String, client: String, key: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        reject("not support", "ios version is not supported yet", nil);
     }
 }
